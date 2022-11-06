@@ -1,0 +1,31 @@
+version: '2.3'
+networks:
+  bridge:
+    driver: bridge
+services:
+
+  mysql:
+    image: biarms/mysql:5.7
+    restart: "always"
+    mem_limit: 512m
+    networks:
+    - bridge
+    environment:
+      TZ: "Asia/Shanghai"
+      TIME_ZONE: "Asia/Shanghai"
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+    - ./localtime:/usr/share/zoneinfo/Asia/Shanghai:ro
+    - ./localtime:/etc/localtime:ro
+    - ./timezone:/etc/timezone:ro
+    - ./mysql/data:/var/lib/mysql
+    - ./mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+    - ./mysql/conf/mysqldump.cnf:/etc/mysql/conf.d/mysqldump.cnf
+    - ./mysql/dump:/usr/local/dump
+    ports: 
+    - "3306:3306"
+
